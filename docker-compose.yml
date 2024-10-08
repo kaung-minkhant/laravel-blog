@@ -72,11 +72,22 @@ services:
     working_dir: /var/www/html/
     depends_on:
       - mysql-php
-    entrypoint: ['ls']
+    entrypoint: [ "/entry/artisan-entrypoint.sh" ]
     networks:
       default:
         aliases:
           - ${ARTISAN_CONTAINER_NAME}
+  npm:
+    image: node:22-alpine3.19
+    container_name: ${NPM_CONTAINER_NAME}
+    volumes:
+      - ./src:/var/www/html/
+    working_dir: /var/www/html/
+    entrypoint: [ "npm" ]
+    networks:
+      default:
+        aliases:
+          - ${NPM_CONTAINER_NAME}
 
 volumes:
   mysql-php-data: {}
